@@ -15,13 +15,10 @@
 
     <div class="container">
       <style>
-        .dnsearch_results {
-          background: #fff;
-            border: 1px solid;
-            padding: 10px;
-            display: none;
-        }
-        </style>
+        .dnsearch_results{background:#fff;border:1px solid #3c8dbc;display:none;}
+        .dnsearch_results .item__wrap:not(:last-child){border-bottom:1px solid #3c8dbc;}
+        .dnsearch_results .item__wrap{padding:10px;line-height:normal;}
+      </style>
  
         <div class="form__search">
           <input type="text"  class="search__field" value="" data-postType="post" placeholder="Search">
