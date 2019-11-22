@@ -8,11 +8,9 @@
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 
-    <title>Hello, world!</title>
+    <title>dnSearchAjax</title>
   </head>
   <body>
-    <h1>Hello, world!</h1>
-
     <div class="container">
       <style>
         .dnsearch_results{background:#fff;border:1px solid #3c8dbc;display:none;}
@@ -20,11 +18,26 @@
         .dnsearch_results .item__wrap{padding:10px;line-height:normal;}
       </style>
  
-        <div class="form__search">
-          <input type="text"  class="search__field" value="" data-postType="post" placeholder="Search">
-          <input type="text" class="search__field" value="" data-postType="product" placeholder="Search">
-          <input type="text" class="search__field" value="" data-postType="post" placeholder="Search">
-        </div>
+        <div class="form__search mt-5">
+			<div class="row mb-3">
+				<div class="col-md-12">
+					<label for="">Search Post Type</label>
+					<input type="text"  class="search__field" value="" data-query='{"post_type":"hosting","posts_per_page":3}' placeholder="Search">
+				</div>
+			</div>
+			<div class="row mb-3">
+				<div class="col-md-12">
+					<label for="">Search Metabox</label>
+					<input type="text" class="search__field" value="" data-query='{"post_type":"hosting","posts_per_page":3,"meta_query":"my_meta_key",}' placeholder="Search">
+				</div>
+			</div>
+			<div class="row mb-3">
+				<div class="col-md-12">
+					<label for="">Search Taxonomy</label>
+					<input type="text" class="search__field" value="" data-query='{"post_type":"hosting","posts_per_page":3,"taxonomy":"my_taxonomy_key"}' placeholder="Search">
+				</div>
+			</div>
+		</div>
             
     </div>
 
