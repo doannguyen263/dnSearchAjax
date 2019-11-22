@@ -17,20 +17,58 @@ add_action("wp_ajax_dnsearch_ajax", "dnsearch_ajax");
 add_action("wp_ajax_nopriv_dnsearch_ajax", "dnsearch_ajax");
 function dnsearch_ajax(){
     $data = $_POST['data'];
-    $postTypeAccept = array('post','customer');
-    $postType = isset($_POST['postType']) ? $_POST['postType'] : 'post';
+    $dataQuery = stripslashes($_POST['query']);
+    $postTypeAccept = array('post','hosting','customer');
+    $dataQuery = json_decode($dataQuery);
+
+    $postType = isset($dataQuery->post_type) ? $dataQuery->post_type : 'post';
+	$posts_per_page = isset($dataQuery->posts_per_page) ? $dataQuery->posts_per_page : 10;
+    $meta_query = isset($dataQuery->meta_query) ? $dataQuery->meta_query : '';
+    $taxonomy = isset($dataQuery->taxonomy) ? $dataQuery->taxonomy : '';
+    $search = isset($dataQuery->s) ? $dataQuery->s : '';
 
     if(in_array($postType, $postTypeAccept)){
-        $args = array(
+
+    	$args = array(
           'post_type' => $postType,
-          'posts_per_page' => 10,
-          's' => $data,
+          'posts_per_page' => $posts_per_page,
         );
+
+    	if($search){
+		    $meta_query_array = array(
+		    	's'  => $data,
+		    );
+		    $args = array_merge($args, $meta_query_array);
+		}
+
+        if($meta_query){
+		    $meta_array[] = array(
+		        'key'     => $meta_query,
+		        'value'   => $data,
+		        'compare' => 'LIKE',
+		    );
+		    $meta_query_array = array(
+		    	'meta_query' => $meta_array
+		    );
+		    $args = array_merge($args, $meta_query_array);
+		}
+
+		if($taxonomy){
+		    $meta_array[] = array(
+		        'taxonomy' => $taxonomy,
+	            'field'    => 'name',
+	            'terms'    => $data,
+		    );
+		    $meta_query_array = array(
+		    	'tax_query' => $meta_array
+		    );
+		    $args = array_merge($args, $meta_query_array);
+		}
         $the_query = new WP_Query( $args );
         if ( $the_query->have_posts() ) :
             while ( $the_query->have_posts() ) : $the_query->the_post(); ?>
               <div class="item__wrap">
-                <?php the_title() ?>
+              	<?php the_title();?>
               </div>
             <?php endwhile;
             wp_reset_postdata();
