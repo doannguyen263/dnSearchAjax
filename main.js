@@ -14,6 +14,7 @@
 
       var x_timer; 
       _self.on( "change keydown input",function(e) {
+        update_position(dnsearch_results,e.currentTarget)
         _self_this = $(this)
         dnsearch_results.show();
         var key_search = _self_this.val();
@@ -35,14 +36,15 @@
     $('.dnsearch_results').on( "click",'.item__wrap',_box_select); // Select item
     
     function box_create(dnsearch_results,_this,index) {
-      var box_offset = _this.offset();
-      var box_height = _this.innerHeight();
-      var box_width = _this.outerWidth();
-      
       $('body').addClass('dnsearch--active')
       create_box = dnsearch_results.insertAfter('body')
-      dnsearch_results.css({"position":"absolute","top":box_offset.top + box_height,'left':box_offset.left,'width':box_width,"z-index":999})
-
+    }
+    // Cap nhat lai vi tri box search
+    function update_position(dnsearch_results,el) {
+      var box_offset = $(el).offset();
+      var box_height = $(el).innerHeight();
+      var box_width = $(el).outerWidth();
+      dnsearch_results.css({"position":"absolute","top":box_offset.top + box_height,'left':box_offset.left,'width':box_width,"z-index":9999})
     }
     function box_search(dnsearch_results,query,key_search) {
       $.ajax({
